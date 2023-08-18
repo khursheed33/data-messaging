@@ -1,110 +1,46 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:data_messaging/constants/app_text.dart';
+import 'package:data_messaging/viewmodels/notification_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 
-import '../apis/api_services.dart';
-
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
-
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  @override
-  void initState() {
-    super.initState();
-    var initializationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = const DarwinInitializationSettings();
-    var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-
-  Future onSelectNotification(String payload) async {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text("PayLoad"),
-          content: Text("Payload : $payload"),
-        );
-      },
-    );
-  }
-
-  void showNotification(String title, String body) async {
-    await _demoNotification(title, body);
-  }
-
-  Future<void> _demoNotification(String title, String body) async {
-    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-      'channel_ID',
-      'channel name',
-      importance: Importance.max,
-      playSound: true,
-      showProgress: true,
-      priority: Priority.high,
-      ticker: 'test ticker',
-    );
-
-    var iOSChannelSpecifics = const DarwinNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: iOSChannelSpecifics,
-    );
-    await flutterLocalNotificationsPlugin
-        .show(0, title, body, platformChannelSpecifics, payload: 'test');
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<NotificationViewModel>(context);
+    model.initialize();
+    model.requestPermission();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Push Notification App'),
+        title: const Text(AppText.appName),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Received Message:'),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                _sendNotification(context,
-                    'Hello from the app!'); // Replace with your desired message
-              },
-              child: const Text('Send Notification'),
+      backgroundColor: Colors.blue[50],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text("Your Notifications will be shown here."),
+          const SizedBox(height: 20),
+          ListTile(
+            tileColor: Colors.white,
+            leading: const CircleAvatar(
+              child: Icon(
+                Icons.notifications_active_outlined,
+                color: Colors.yellow,
+              ),
             ),
-          ],
-        ),
+            title: Text(model.currentNotification.title),
+            subtitle: Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                Text(" ${model.currentNotification.body}"),
+              ],
+            ),
+          )
+        ],
       ),
     );
-  }
-
-  void _sendNotification(BuildContext context, String message) async {
-    try {
-      await ApiService.sendNotification(message).then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Notification sent successfully'),
-          ),
-        );
-        return value;
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to send notification $e'),
-        ),
-      );
-    }
   }
 }
