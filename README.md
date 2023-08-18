@@ -1,16 +1,46 @@
-# data_messaging
+# Data Messaging using FCM
 
-A new Flutter project.
+# Flutter MVVM Design Pattern Example
+
+This repository showcases a Flutter project that implements the Model-View-ViewModel (MVVM) design pattern. MVVM is a powerful architectural pattern that enhances code organization, reusability, and testability.
+
+## Folder Structure
+
+The project is organized using the MVVM folder structure. Each folder contains specific components that contribute to the overall implementation of the MVVM pattern:
+
+- `lib/`
+  - `models/`
+    - `notification_model.dart`: Defines the `NotificationModel` class, which represents notification data.
+      - The `NotificationModel` class contains properties such as `title` and `body` to hold notification details.
+
+  - `viewmodels/`
+    - `notification_viewmodel.dart`: Implements the `NotificationViewModel` class to manage notification logic and app state.
+      - The `NotificationViewModel` class is responsible for interacting with the Model and handling business logic.
+      - It initializes the FlutterLocalNotificationsPlugin and handles Firebase messaging events.
+      - Manages text editing controllers for input fields.
+
+  - `views/`
+    - `my_home_page.dart`: Contains the `MyHomePage` widget that interacts with the `NotificationViewModel`.
+      - The `MyHomePage` widget builds the UI for the main screen, including text input fields and a submission button.
+      - It uses the `Provider.of<NotificationViewModel>` to access the ViewModel's functionality.
+      - Scaffold, TextFormFields, and ElevatedButton widgets are used for the UI elements.
+
+  - `main.dart`: The application entry point, where the `ChangeNotifierProvider` provides the `NotificationViewModel`.
+    - The `ChangeNotifierProvider` wraps the entire application with the `NotificationViewModel`, enabling data sharing between components.
+
+## Application Showcases
+
+![Alt text](Screenshot_1692337533.png)
+
+![Alt text](Screenshot_1692337598.png)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To run the project:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Install Flutter and Dart using the [official installation guide](https://flutter.dev/docs/get-started/install).
+2. Clone this repository to your local machine.
+3. Navigate to the project's root directory.
+4. Run `flutter pub get` to install dependencies.
+5. Launch an emulator or connect a physical device.
+6. Run `flutter run` to start the app.
