@@ -44,3 +44,9 @@ To run the project:
 4. Run `flutter pub get` to install dependencies.
 5. Launch an emulator or connect a physical device.
 6. Run `flutter run` to start the app.
+
+
+Note: Since last one week my laptop is not with me, that why I wasn't able to connect real device with the as I have developed with on organisation laptop, we're not allowed to connect any devices to that laptop, Due to which you may not see the notification properly, that's why I have rendered that notification in the main screen.
+I was going through the last use case that notification should not be shown when app is in background but I didn't found any way to implement that. It will take time to implement.
+
+Thank you.
