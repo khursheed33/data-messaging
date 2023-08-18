@@ -1,12 +1,11 @@
 # Data Messaging using FCM
 
-# Flutter MVVM Design Pattern Example
+The project is organized using the MVVM folder structure. Each folder contains specific components that contribute to the overall implementation of the MVVM pattern:
 
-This repository showcases a Flutter project that implements the Model-View-ViewModel (MVVM) design pattern. MVVM is a powerful architectural pattern that enhances code organization, reusability, and testability.
+## Repository
+   `https://github.com/khursheed33/data-messaging`
 
 ## Folder Structure
-
-The project is organized using the MVVM folder structure. Each folder contains specific components that contribute to the overall implementation of the MVVM pattern:
 
 - `lib/`
   - `models/`
